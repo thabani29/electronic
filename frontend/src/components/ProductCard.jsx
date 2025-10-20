@@ -1,59 +1,34 @@
-import React from 'react';
+import React from "react";
 
-function ProductsCard({ product }) {
-  // 🔗 Your backend base URL (update this when you deploy)
-  const BASE_URL = 'http://localhost:5000';
+export default function ProductCard({ product, onAdd }) {
+  const backendBase = import.meta.env.VITE_API_BASE_URL || "http://localhost:5000";
+
+  // Use the EXACT same image logic as your Home page
+  const imageSrc = (product.image || product.image_url)?.startsWith("http")
+    ? (product.image || product.image_url) // full URL already
+    : `${backendBase}/uploads/${(product.image || product.image_url)?.replace(/^uploads[\\/]/, "")}`;
 
   return (
-    <div
-      style={{
-        border: '1px solid #ddd',
-        borderRadius: '10px',
-        padding: '16px',
-        textAlign: 'center',
-        width: '250px',
-        boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-        backgroundColor: '#fff',
-      }}
-    >
-      {/* ✅ Display image from backend */}
-      <img
-        src={`${BASE_URL}${product.image}`}  // image path comes from your backend
+    <div className="product-card">
+      <img 
+        src={imageSrc}
         alt={product.name}
-        style={{
-          width: '100%',
-          height: '200px',
-          objectFit: 'cover',
-          borderRadius: '8px',
-          marginBottom: '10px',
-        }}
         onError={(e) => {
-          // fallback if image fails to load
-          e.target.src = 'https://via.placeholder.com/400x300?text=No+Image';
+          e.target.src = "https://via.placeholder.com/220x140?text=No+Image";
+        }}
+        style={{ 
+          width: '100%',
+          height: '140px',
+          objectFit: 'cover',
+          borderRadius: '6px' // Added to match Home page
         }}
       />
-
-      {/* ✅ Product details */}
-      <h3 style={{ fontSize: '1.2rem', marginBottom: '6px' }}>{product.name}</h3>
-      <p style={{ fontSize: '0.9rem', color: '#555', minHeight: '40px' }}>
-        {product.description}
-      </p>
-      <p style={{ fontWeight: 'bold', marginTop: '10px' }}>${product.price}</p>
-      <button
-        style={{
-          backgroundColor: '#007bff',
-          color: '#fff',
-          border: 'none',
-          borderRadius: '5px',
-          padding: '8px 12px',
-          marginTop: '10px',
-          cursor: 'pointer',
-        }}
-      >
+      <h3>{product.name}</h3>
+      <p>{product.description}</p>
+      <p className="price">${product.price}</p>
+      <button className="button" onClick={() => onAdd(product)}>
         Add to Cart
       </button>
     </div>
   );
 }
-
-export default ProductsCard;

@@ -10,7 +10,7 @@ export default function App(){
   return (
     <CartProvider>
       <Navbar />
-      <div className="container">
+      <div className="container" style={{marginTop:20}} position="fixed">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Products />} />
