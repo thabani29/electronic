@@ -10,7 +10,18 @@ const ordersRouter = require('./routes/orders');
 dotenv.config();
 const app = express();
 
-app.use(cors());
+// ✅ FIXED CORS Configuration
+app.use(cors({
+  origin: [
+    'https://electronicstore.infinityfree.me',
+    'http://electronicstore.infinityfree.me',
+    'http://localhost:3000',
+    'http://localhost:5173'
+  ],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
+}));
+
 app.use(express.json());
 
 // ✅ Serve uploaded images publicly
@@ -19,23 +30,23 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // ✅ Multer setup for image uploads
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {
-        cb(null, 'uploads/'); // Folder where images will be saved
+        cb(null, 'uploads/');
     },
     filename: function(req, file, cb) {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-        cb(null, uniqueSuffix + path.extname(file.originalname)); // Unique file name
+        cb(null, uniqueSuffix + path.extname(file.originalname));
     }
 });
 const upload = multer({ storage });
 
-// ✅ Upload route (returns full image URL)
+// ✅ FIXED Upload route - Use absolute URL for Render
 app.post('/api/upload', upload.single('image'), (req, res) => {
     if (!req.file) {
         return res.status(400).json({ message: 'No image uploaded' });
     }
 
-    // Construct full URL dynamically
-    const imageUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
+    // ✅ FIX: Use your Render URL instead of dynamic host
+    const imageUrl = `https://electronic-vzq5.onrender.com/uploads/${req.file.filename}`;
 
     // Return full URL for frontend
     res.json({ image_url: imageUrl });
@@ -47,6 +58,15 @@ app.use('/api/orders', ordersRouter);
 
 // ✅ Default route
 app.get('/', (req, res) => res.send('Electronic Store API running 🚀'));
+
+// ✅ Health check route (important for Render)
+app.get('/health', (req, res) => {
+    res.status(200).json({ 
+        status: 'OK', 
+        message: 'Server is healthy',
+        timestamp: new Date().toISOString()
+    });
+});
 
 // ✅ Start server
 const PORT = process.env.PORT || 5000;
