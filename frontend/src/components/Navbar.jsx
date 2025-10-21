@@ -4,7 +4,13 @@ import { CartContext } from '../context/CartContext'
 
 export default function Navbar(){
   const { cart } = useContext(CartContext)
-  const count = cart.reduce((s,i) => s + (i.qty || 0), 0)
+  
+  // Safe cart count calculation
+  const count = cart.reduce((sum, item) => {
+    const quantity = parseInt(item?.qty) || 0;
+    return sum + quantity;
+  }, 0);
+  
   return (
     <nav className="nav">
       <div style={{fontWeight:700}}>Electronic Store</div>
