@@ -1,8 +1,8 @@
-// src/utils/api.js - Alternative version
+// src/utils/api.js
 
 // API URL function
 export const getApiUrl = () => {
-    return import.meta.env.VITE_API_URL || "http://localhost:5000";
+    return import.meta.env.VITE_API_URL;
 };
 
 // Image URL function  

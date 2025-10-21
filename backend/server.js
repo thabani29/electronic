@@ -19,8 +19,8 @@ const allowedOrigins = [
     'https://electronicstore.infinityfree.me',
     'http://localhost:3000',
     'http://localhost:5173',
-    'http://localhost:5174', // Added Vite default port
-    'https://electronic-vzq5.onrender.com' // Allow your own backend if needed
+    'http://localhost:5174',
+    'https://electronic-vzq5.onrender.com'
 ];
 
 // Use cors middleware with proper configuration
@@ -95,7 +95,7 @@ app.post('/api/upload', upload.single('image'), (req, res) => {
     }
 
     // Use deployed backend URL in production or localhost for dev
-    const baseUrl = process.env.BACKEND_URL || `http://localhost:${process.env.PORT || 5000}`;
+    const baseUrl = process.env.BACKEND_URL || 'https://electronic-vzq5.onrender.com';
     const imageUrl = `${baseUrl}/uploads/${req.file.filename}`;
     res.json({ image_url: imageUrl });
 });
@@ -161,7 +161,7 @@ app.get('/api/images', async(req, res) => {
         });
 
         // Create full URLs for each image
-        const baseUrl = process.env.BACKEND_URL || `http://localhost:${process.env.PORT || 5000}`;
+        const baseUrl = process.env.BACKEND_URL || 'https://electronic-vzq5.onrender.com';
         const images = imageFiles.map(file => ({
             filename: file,
             url: `${baseUrl}/api/images/${file}`,
@@ -222,11 +222,11 @@ app.use((err, req, res, next) => {
 });
 
 // Start server
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 'https://electronic-vzq5.onrender.com';
 app.listen(PORT, () => {
     console.log(`✅ Server running on port ${PORT}`);
     console.log(`🌐 Allowed CORS origins:`, allowedOrigins);
-    console.log(`🔗 Health check: http://localhost:${PORT}/health`);
-    console.log(`🔗 CORS test: http://localhost:${PORT}/api/test-cors`);
-    console.log(`🖼️  Images API: http://localhost:${PORT}/api/images`);
+    console.log(`🔗 Health check:   https://electronic-vzq5.onrender.com/health`);
+    console.log(`🔗 CORS test:   https://electronic-vzq5.onrender.com/api/test-cors`);
+    console.log(`🖼️  Images API:   https://electronic-vzq5.onrender.com/api/images`);
 });
