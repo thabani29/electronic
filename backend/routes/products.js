@@ -2,10 +2,10 @@ const express = require('express');
 const router = express.Router();
 const db = require('../db');
 
-// get all products
+// GET /api/products
 router.get('/', async (req, res) => {
   try {
-    const [rows] = await db.query('SELECT * FROM products');
+    const [rows] = await db.query('SELECT product_id, name, description, price, image AS image_url, stock FROM products');
     res.json(rows);
   } catch (err) {
     console.error(err);
@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// get product by id
+// GET /api/products/:id
 router.get('/:id', async (req, res) => {
   try {
     const [rows] = await db.query('SELECT * FROM products WHERE product_id = ?', [req.params.id]);

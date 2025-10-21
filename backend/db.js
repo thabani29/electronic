@@ -1,15 +1,25 @@
 const mysql = require('mysql2');
-const dotenv = require('dotenv');
-dotenv.config();
+require('dotenv').config();
 
-const pool = mysql.createPool({
-    host: process.env.DB_HOST || 'localhost',
-    user: process.env.DB_USER || 'root',
-    password: process.env.DB_PASSWORD || '',
+const connectionConfig = {
+    host: process.env.DB_HOST || 'https://electronic-vzq5.onrender.com',
+    user: process.env.DB_USER || 'render_user',
+    password: process.env.DB_PASSWORD || 'cd0930b8a14ececd022edadc7ad6ccfc',
     database: process.env.DB_NAME || 'electronicstore',
+    port: process.env.DB_PORT ? parseInt(process.env.DB_PORT, 10) : 3306,
     waitForConnections: true,
-    connectionLimit: 10,
-    queueLimit: 0
+    connectionLimit: 10
+};
+
+const pool = mysql.createPool(connectionConfig);
+
+pool.getConnection((err, conn) => {
+    if (err) {
+        console.error('❌ MySQL connection error:', err.message || err);
+    } else {
+        console.log('✅ Connected to MySQL (pool)');
+        conn.release();
+    }
 });
 
 module.exports = pool.promise();

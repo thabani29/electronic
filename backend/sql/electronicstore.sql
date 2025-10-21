@@ -40,8 +40,8 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`order_id`, `user_id`, `total`, `items_json`, `order_date`) VALUES
-(1, NULL, 89.97, '[{\"product_id\":4,\"name\":\"Wireless Mouse\",\"description\":\"Ergonomic wireless mouse\",\"price\":\"29.99\",\"image\":\"https://via.placeholder.com/400x300?text=Mouse\",\"stock\":25,\"created_at\":\"2025-10-20T07:21:03.000Z\",\"qty\":3}]', '2025-10-20 07:50:53'),
-(2, NULL, 199.99, '[{\"product_id\":2,\"name\":\"Samsung Galaxy S24 Ultra\",\"description\":\"5.8-inch smartphone, 256GB storage\",\"price\":\"199.99\",\"image\":\"http://localhost:5000/uploads/s24.jpg\\n\",\"stock\":10,\"created_at\":\"2025-10-20T07:21:03.000Z\",\"qty\":1}]', '2025-10-20 13:08:34');
+(1, NULL, 89.97, '[{"product_id":4,"name":"Wireless Mouse","description":"Ergonomic wireless mouse","price":"29.99","image":"https://via.placeholder.com/400x300?text=Mouse","stock":25,"created_at":"2025-10-20T07:21:03.000Z","qty":3}]', '2025-10-20 07:50:53'),
+(2, NULL, 199.99, '[{"product_id":2,"name":"Samsung Galaxy S24 Ultra","description":"5.8-inch smartphone, 256GB storage","price":"199.99","image":"http://localhost:5000/uploads/s24.jpg\n","stock":10,"created_at":"2025-10-20T07:21:03.000Z","qty":1}]', '2025-10-20 13:08:34');
 
 -- --------------------------------------------------------
 
@@ -64,11 +64,11 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`product_id`, `name`, `description`, `price`, `image`, `stock`, `created_at`) VALUES
-(1, 'Laptop Pro 14', '14-inch laptop with 8GB RAM, 256GB SSD', 799.99, 'http://localhost:5000/uploads/hp.jpg', 5, '2025-10-20 07:21:03'),
-(2, 'Samsung Galaxy S24 Ultra', '5.8-inch smartphone, 256GB storage', 199.99, 'http://localhost:5000/uploads/s24.jpg\n', 10, '2025-10-20 07:21:03'),
-(3, 'Mechanical Keyboard', 'RGB mechanical keyboard, blue switches', 69.99, 'http://localhost:5000/uploads/Keyboard.jpg', 15, '2025-10-20 07:21:03'),
-(4, 'Wireless Mouse', 'Ergonomic wireless mouse', 29.99, 'http://localhost:5000/uploads/mouse.jpeg', 25, '2025-10-20 07:21:03'),
-(5, '27-inch Monitor', 'IPS 1080p monitor', 149.99, 'http://localhost:5000/uploads/monitor.jpg', 7, '2025-10-20 07:21:03');
+(1, 'Laptop Pro 14', '14-inch laptop with 8GB RAM, 256GB SSD', 799.99, 'https://electronic-vzq5.onrender.com/uploads/hp.jpg', 5, '2025-10-20 07:21:03'),
+(2, 'Samsung Galaxy S24 Ultra', '5.8-inch smartphone, 256GB storage', 199.99, 'https://electronic-vzq5.onrender.com/uploads/s24.jpg\n', 10, '2025-10-20 07:21:03'),
+(3, 'Mechanical Keyboard', 'RGB mechanical keyboard, blue switches', 69.99, 'https://electronic-vzq5.onrender.com/uploads/Keyboard.jpg', 15, '2025-10-20 07:21:03'),
+(4, 'Wireless Mouse', 'Ergonomic wireless mouse', 29.99, 'https://electronic-vzq5.onrender.com/uploads/mouse.jpeg', 25, '2025-10-20 07:21:03'),
+(5, '27-inch Monitor', 'IPS 1080p monitor', 149.99, 'https://electronic-vzq5.onrender.com/uploads/monitor.jpg', 7, '2025-10-20 07:21:03');
 
 -- --------------------------------------------------------
 
