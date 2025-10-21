@@ -6,7 +6,7 @@ const connectionConfig = {
     user: process.env.DB_USER || 'render_user',
     password: process.env.DB_PASSWORD || 'cd0930b8a14ececd022edadc7ad6ccfc',
     database: process.env.DB_NAME || 'electronicstore',
-    port: process.env.DB_PORT ? parseInt(process.env.DB_PORT, 10) : 3306,
+    port: process.env.DB_PORT || 3306,
     waitForConnections: true,
     connectionLimit: 10
 };

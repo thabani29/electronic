@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { CartContext } from "../context/CartContext";
 
 // ✅ Define backend API URL (can also come from Vite env)
-const API = import.meta.env.VITE_API_URL || "http://localhost:5000";
+const API = import.meta.env.VITE_API_URL || "https://electronic-vzq5.onrender.com";
 
 export default function Home() {
   const [featured, setFeatured] = useState([]);
