@@ -5,60 +5,56 @@ const path = require('path');
 const multer = require('multer');
 const db = require('./db');
 
+// Load environment variables at the very top
+dotenv.config();
+
 const productsRouter = require('./routes/products');
 const ordersRouter = require('./routes/orders');
 
-dotenv.config();
 const app = express();
 
-// ✅ FIXED CORS Configuration
+// CORS setup
+const allowedOrigins = process.env.FRONTEND_URLS ?
+    process.env.FRONTEND_URLS.split(',') : ['http://localhost:3000'];
+
 app.use(cors({
-    origin: [
-        'https://electronicstore.infinityfree.me',
-        'http://electronicstore.infinityfree.me',
-        'http://localhost:3000',
-        'http://localhost:5173'
-    ],
+    origin: allowedOrigins,
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
 }));
 
 app.use(express.json());
 
-// Serve uploaded images publicly
+// Serve uploaded images (local testing only)
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Multer setup for image uploads
 const storage = multer.diskStorage({
-    destination: function(req, file, cb) {
-        cb(null, 'uploads/');
-    },
-    filename: function(req, file, cb) {
+    destination: (req, file, cb) => cb(null, 'uploads/'),
+    filename: (req, file, cb) => {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
         cb(null, uniqueSuffix + path.extname(file.originalname));
     }
 });
 const upload = multer({ storage });
 
-// ✅ FIXED Upload route - Use absolute URL for Render
+// Upload route
 app.post('/api/upload', upload.single('image'), (req, res) => {
     if (!req.file) {
         return res.status(400).json({ message: 'No image uploaded' });
     }
 
-    // ✅ FIX: Use your Render URL instead of dynamic host
-    const imageUrl = `https://electronic-vzq5.onrender.com/uploads/${req.file.filename}`;
-
-    // Return full URL for frontend
+    // Use deployed backend URL in production or localhost for dev
+    const baseUrl = process.env.BACKEND_URL || `http://localhost:${process.env.PORT || 5000}`;
+    const imageUrl = `${baseUrl}/uploads/${req.file.filename}`;
     res.json({ image_url: imageUrl });
 });
 
+// API routes
 app.use('/api/products', productsRouter);
 app.use('/api/orders', ordersRouter);
 
-app.get('/', (req, res) => res.send('Electronic Store API running 🚀'));
-
-// ✅ Health check route (important for Render)
+// Health check
 app.get('/health', (req, res) => {
     res.status(200).json({
         status: 'OK',
@@ -67,6 +63,9 @@ app.get('/health', (req, res) => {
     });
 });
 
-// ✅ Start server
+// Default route
+app.get('/', (req, res) => res.send('Electronic Store API running 🚀'));
+
+// Start server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));

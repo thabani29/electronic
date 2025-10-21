@@ -1,18 +1,18 @@
 const mysql = require('mysql2');
-require('dotenv').config();
+require('dotenv').config(); // Must be first
 
-const connectionConfig = {
-    host: process.env.DB_HOST || 'https://electronic-vzq5.onrender.com',
-    user: process.env.DB_USER || 'render_user',
-    password: process.env.DB_PASSWORD || 'cd0930b8a14ececd022edadc7ad6ccfc',
-    database: process.env.DB_NAME || 'electronicstore',
-    port: process.env.DB_PORT || 3306,
+// Create a connection pool using Clever Cloud environment variables
+const pool = mysql.createPool({
+    host: process.env.MYSQL_ADDON_HOST,
+    user: process.env.MYSQL_ADDON_USER,
+    password: process.env.MYSQL_ADDON_PASSWORD,
+    database: process.env.MYSQL_ADDON_DB,
+    port: process.env.MYSQL_ADDON_PORT || 3306,
     waitForConnections: true,
     connectionLimit: 10
-};
+});
 
-const pool = mysql.createPool(connectionConfig);
-
+// Test connection
 pool.getConnection((err, conn) => {
     if (err) {
         console.error('❌ MySQL connection error:', err.message || err);
