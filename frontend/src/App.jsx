@@ -1,16 +1,16 @@
-import React from 'react'
-import { Routes, Route } from 'react-router-dom'
-import Home from './pages/Home'
-import Products from './pages/Products'
-import CartPage from './pages/Cart'
-import Navbar from './components/Navbar'
-import { CartProvider } from './context/CartContext'
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import Home from './pages/Home';
+import Products from './pages/Products';
+import CartPage from './pages/Cart';
+import Navbar from './components/Navbar';
+import { CartProvider } from './context/CartContext';
 
-export default function App(){
+export default function App() {
   return (
     <CartProvider>
       <Navbar />
-      <div className="container" style={{marginTop:20}} position="fixed">
+      <div className="container" style={{ margin: "20px auto", maxWidth: 1200 }}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Products />} />
@@ -18,5 +18,5 @@ export default function App(){
         </Routes>
       </div>
     </CartProvider>
-  )
+  );
 }
